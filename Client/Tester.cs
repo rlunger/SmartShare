@@ -12,12 +12,11 @@ namespace Client
             new[] {"--help"},
             new[] {"--version"},
             new[] {"upload"},
-            new[] {"upload", "Program.cs"},
-            new[] {"upload", "Program.cs", "password123"},
-            new[] {"download"},
-            new[] {"download", "Program.cs"},
-            new[] {"download", "Program.cs", "p@ssw0rd"},
-            new[] {"download", "Program.cs", "password123"}
+            new[] {"upload", "*.cs", "bondstone"},
+            new[] {"upload", "*.cs", "bondstone"},
+            new[] {"download", "Api.cs", "b0ndst0ne"},
+            new[] {"download", "Api.cs Program.cs", "bondstone"},
+            new[] {"view", "Api.cs Program.cs Config.cs", "bondstone"},
         };
 
         public static void RunTestArgs()

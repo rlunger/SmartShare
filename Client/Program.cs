@@ -1,34 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Client.Options;
+
 using CommandLine;
 using static Client.Options.DownloadOptions;
 using static Client.Options.UploadOptions;
+using static Client.Options.ViewOptions;
 
 namespace Client
 {
     public class Program
     {
-        private static readonly bool developmentMode = true;
-        
-        public static void Main(string[] args)
+        private static readonly bool developmentMode = false;
+
+        public static void Main (string[] args)
         {
             if (args.Length <= 0 && developmentMode)
             {
-                Tester.RunTestArgs();
+                Tester.RunTestArgs ();
             }
             else
             {
-                RunCommandArgs(args);
+                RunCommandArgs (args);
             }
         }
 
-        public static void RunCommandArgs(string[] args)
+        public static void RunCommandArgs (string[] args)
         {
-            Parser.Default.ParseArguments<DownloadOptions, UploadOptions>(args)
-                .MapResult(
-                    (DownloadOptions opts) => ExecuteDownloadAndReturnExitCode(opts),
-                    (UploadOptions opts) => ExecuteUploadAndReturnExitCode(opts),
+            Parser.Default.ParseArguments<DownloadOptions, UploadOptions, ViewOptions> (args)
+                .MapResult (
+                    (DownloadOptions opts) => ExecuteDownloadAndReturnExitCode (opts),
+                    (UploadOptions opts) => ExecuteUploadAndReturnExitCode (opts),
+                    (ViewOptions opts) => ExecuteViewAndReturnExitCode (opts),
                     errs => 1);
         }
     }

@@ -1,22 +1,41 @@
-using System;
+using System.Collections.Generic;
+
 using CommandLine;
 
 namespace Client.Options
 {
-    [Verb("download", HelpText = "Downloads a file provided the correct password is given")]
+  [Verb (Client.Config.DownloadVerb, HelpText = Client.Config.ViewHelpText)]
     public class DownloadOptions
     {
-        [Value(0, MetaName = "filename", HelpText = "Unique name of file to be downloaded", Required = true)]
-        public string FileName { get; set; }
-        
-        [Value(1, MetaName = "password", HelpText = "Password used to access file", Required = true)]
-        public string Password { get; set; }
-
-        public static int ExecuteDownloadAndReturnExitCode(DownloadOptions options)
+        [Value (
+            0,
+            MetaName = Client.Config.DownloadFileListName,
+            HelpText = Client.Config.DownloadFileListHelpText,
+            Required = true
+        )]
+        public IEnumerable<string> Filenames
         {
-            // TODO
-            Console.WriteLine($"Attempting to download file: {options.FileName}");
-            return 0;
+            get;
+            set;
+        }
+
+        [Option (
+            Client.Config.PasswordSingleCharFlag,
+            Client.Config.PasswordFullFlag,
+            HelpText = Client.Config.PasswordFlagHelpText,
+            Required = Client.Config.DownloadPasswordFlagRequired
+        )]
+        public string Password
+        {
+            get;
+            set;
+        }
+
+        public static int ExecuteDownloadAndReturnExitCode (DownloadOptions options)
+        {
+            return (Api.Download (options))
+                ? Client.Config.ResultSuccess
+                : Client.Config.ResultFailure;
         }
     }
 }

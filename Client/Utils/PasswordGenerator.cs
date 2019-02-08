@@ -16,7 +16,7 @@ namespace Client.Utils
 
         public static string Generate()
         {
-            return RandomString(16);
+            return RandomString(64);
         }
     }
 }
